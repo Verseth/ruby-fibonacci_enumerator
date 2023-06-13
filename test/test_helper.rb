@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-$LOAD_PATH.unshift File.expand_path("../lib", __dir__)
-require "ruby/fibonacci_enumerator"
+$LOAD_PATH.unshift File.expand_path('../lib', __dir__)
+require 'fibonacci_enumerator'
 
-require "minitest/autorun"
+require 'minitest/autorun'
+require 'shoulda-context'

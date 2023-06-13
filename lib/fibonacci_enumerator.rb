@@ -11,6 +11,8 @@ class FibonacciEnumerator
   include ::Enumerable
 
   class << self
+    alias class_include? include?
+
     include ::Enumerable
 
     # @param index [Integer, Range]
@@ -24,6 +26,8 @@ class FibonacciEnumerator
     def each(&block)
       new.each(&block)
     end
+
+    alias include? class_include?
   end
 
   attr_reader :cache
