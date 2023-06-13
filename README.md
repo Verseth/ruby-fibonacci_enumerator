@@ -71,12 +71,15 @@ end
 
 ### select
 
-You cna filter elements using `select` or `reject`
+You can filter elements using `select` or `reject`
 
 ```rb
 FibonacciEnumerator.first(25).select(&:even?)
 #=> [0, 2, 8, 34, 144, 610, 2584, 10946, 46368]
 ```
+
+This class is `Enumerable` so methods like `each`, `select`, `reject`, `take` etc
+are available as well.
 
 ### Sharing the cache between multiple calculations
 
