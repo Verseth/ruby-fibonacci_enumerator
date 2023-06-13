@@ -1,24 +1,103 @@
-# Ruby::FibonacciEnumerator
+# FibonacciEnumerator
 
-TODO: Delete this and the text below, and describe your gem
+This gems adds `FibonacciEnumerator`, an Enumerable class that makes it possible
+to efficiently calculate elements of the Fibonacci sequence.
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/ruby/fibonacci_enumerator`. To experiment with that code, run `bin/console` for an interactive prompt.
+It is an Enumerable object so it can be iterated through using `each`
+and implements methods like `first`, `select`, `map` etc.
 
 ## Installation
 
-TODO: Replace `UPDATE_WITH_YOUR_GEM_NAME_PRIOR_TO_RELEASE_TO_RUBYGEMS_ORG` with your gem name right after releasing it to RubyGems.org. Please do not do it earlier due to security reasons. Alternatively, replace this section with instructions to install your gem from git if you don't plan to release to RubyGems.org.
-
 Install the gem and add to the application's Gemfile by executing:
 
-    $ bundle add UPDATE_WITH_YOUR_GEM_NAME_PRIOR_TO_RELEASE_TO_RUBYGEMS_ORG
+    $ bundle add fibonacci_enumerator
 
 If bundler is not being used to manage dependencies, install the gem by executing:
 
-    $ gem install UPDATE_WITH_YOUR_GEM_NAME_PRIOR_TO_RELEASE_TO_RUBYGEMS_ORG
+    $ gem install fibonacci_enumerator
 
 ## Usage
 
-TODO: Write usage instructions here
+Elements of the Fibonacci sequence are calculated using the dynamic programming approach.
+Instances of `FibonacciEnumerator` contain a cache that accumulates already calculated
+elements of the sequence.
+
+You can use the `FibonacciEnumerator` class directly as an `Enumerable` object for convenience.
+
+### at
+
+The `at` method aliases as `[]` can be used to get a particular element of the sequence.
+
+```rb
+FibonacciEnumerator.at(1) #=> 1
+FibonacciEnumerator.at(2) #=> 1
+FibonacciEnumerator.at(3) #=> 2
+FibonacciEnumerator.at(4) #=> 3
+FibonacciEnumerator.at(5) #=> 5
+FibonacciEnumerator.at(6) #=> 8
+
+FibonacciEnumerator[1] #=> 1
+FibonacciEnumerator[2] #=> 1
+FibonacciEnumerator[3] #=> 2
+FibonacciEnumerator[4] #=> 3
+FibonacciEnumerator[5] #=> 5
+FibonacciEnumerator[6] #=> 8
+```
+
+You can also pass a `Range`.
+
+```rb
+FibonacciEnumerator.at(4..7) #=> [3, 5, 8, 13]
+FibonacciEnumerator[4..7] #=> [3, 5, 8, 13]
+```
+
+### each
+
+You can iterate through the Fibonacci series.
+Keep in mind that it's infinite, so the loop will
+go on forever unless manually interrupted
+
+```rb
+FibonacciEnumerator.each do |element|
+    puts element
+end
+# 1
+# 1
+# 2
+# 3
+# 8
+# ...
+```
+
+### select
+
+You cna filter elements using `select` or `reject`
+
+```rb
+FibonacciEnumerator.first(25).select(&:even?)
+#=> [0, 2, 8, 34, 144, 610, 2584, 10946, 46368]
+```
+
+### Sharing the cache between multiple calculations
+
+When you want to manually get particular elements of the Fibonacci sequence
+you can save some time by sharing the cache between calculations.
+
+You can do that by creating an instance of `FibonacciEnumerator`.
+
+```rb
+fib = FibonacciEnumerator.new
+
+fib[10]
+#=> 55
+fib[10] # cache is reused, no calculations were necessary!
+#=> 55
+fib[15] # the first 10 elements were already calculated, so its faster
+#=> 610
+```
+
+Instances are also `Enumerable` objects so methods like `each`, `select`, `reject`, `take` etc
+are available as well.
 
 ## Development
 
@@ -28,7 +107,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/ruby-fibonacci_enumerator.
+Bug reports and pull requests are welcome on GitHub at https://github.com/Verseth/ruby-fibonacci_enumerator.
 
 ## License
 
